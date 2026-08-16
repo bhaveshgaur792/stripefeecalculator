@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stripe Fee Calculator 2026 | Instant & Reverse Invoice Tool</title>
+<meta name="description" content="Free Stripe fee calculator & reverse invoice estimator. Calculate credit card processing fees, payout deductions, and international transaction charges for US, UK, EU, India, Canada, Australia & Singapore.">
+<meta name="keywords" content="stripe fee calculator, reverse stripe fee calculator, stripe fee calculator 2026, free stripe fee calculator, stripe fee calculator international, stripe fee calculator uk, stripe fee calculator ireland, stripe fee calculator australia, stripe fee calculator canada, stripe fee calculator euro, stripe fee calculator india, stripe fee calculator singapore, stripe transaction fee calculator, stripe invoice fee calculator, does stripe charge for payouts, stripe payment fee calculator">
+
+<!-- Canonical & Open Graph Metadata -->
+<link rel="canonical" href="https://example.com/stripe-fee-calculator">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stripe Fee Calculator 2026 | Instant & Reverse Invoice Tool">
+<meta property="og:description" content="Calculate estimated Stripe processing fees instantly, or use reverse mode to figure out what to invoice clients so you receive the exact payout amount.">
+<meta property="og:url" content="https://example.com/stripe-fee-calculator">
+<meta property="og:site_name" content="Stripe Fee & Reverse Invoice Calculator">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card Metadata -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stripe Fee Calculator 2026 | Instant & Reverse Invoice Tool">
+<meta name="twitter:description" content="Free, instant Stripe fee calculator with reverse invoicing for US, UK, EU, India, Canada, Australia, Singapore & global transactions.">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💳</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Stripe Fee Calculator & Reverse Invoice Tool",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Instant client-side Stripe transaction fee estimator with reverse invoice formula, supporting US, UK, EU, India, Canada, Australia, Singapore, and regional payment structures.",
+  "url": "https://example.com/stripe-fee-calculator"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does Stripe charge in fees per $100?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On a standard US domestic card transaction, Stripe charges 2.9% plus $0.30. For a $100 payment, the fee is $3.20, leaving a net payout of $96.80. International cards add a surcharge (e.g., +1.5% for US), and currency conversion adds an extra 1% to 2% depending on your merchant account region."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the reverse Stripe fee calculator formula work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To ensure you receive an exact target payout, use the gross-up formula: Gross Invoice = (Target Net + Fixed Fee) / (1 - Applicable Percentage Rate). For example, to net $500 on standard US pricing (2.9% + $0.30), invoice ($500 + $0.30) / (1 - 0.029) = $515.24."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Stripe charge for standard payouts to your bank account?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Standard bank payouts on a regular rolling schedule are completely free. If you request an Instant Payout to an eligible debit card, Stripe charges a 1.5% fee in the US and Australia, or 1% in most other supported regions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are Stripe's secondary or dispute fees?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dispute fees vary by currency (typically $15 in the US/CA, £15 in the UK, and €20 in Ireland/Europe per dispute). Additional optional tools like Stripe Billing or advanced Invoicing carry separate usage-based pricing."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+  :root {
+    --bg-page: #F7F5F0;
+    --bg-card: #FFFFFE;
+    --text-main: #1A2233;
+    --text-muted: #6B7280;
+    --border-line: #DAD5C8;
+    --btn-active: #FFFFFE;
+    --btn-active-text: #1A2233;
+    --stamp-red: #C1442D;
+    --stamp-green: #2F6E4E;
+    --accent-gold: #B8862E;
+    --perf-bg: #F7F5F0;
+  }
+
+  .dark {
+    --bg-page: #12161F;
+    --bg-card: #1B2130;
+    --text-main: #EDEBE4;
+    --text-muted: #9AA1B4;
+    --border-line: #2C3345;
+    --btn-active: #1B2130;
+    --btn-active-text: #EDEBE4;
+    --perf-bg: #12161F;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    line-height: 1.5;
+  }
+
+  .font-display { font-family: 'Space Grotesk', sans-serif; }
+  .font-mono { font-family: 'IBM Plex Mono', monospace; }
+
+  .container-nav { max-width: 1024px; margin: 0 auto; padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+  .container-main { max-width: 672px; margin: 0 auto; padding: 0 1.25rem 3.5rem; }
+  .container-content { max-width: 768px; margin: 0 auto; padding: 3rem 1.25rem; }
+
+  header { border-bottom: 1px solid var(--border-line); }
+  footer { border-top: 1px solid var(--border-line); padding: 1.5rem 1.25rem; text-align: center; }
+
+  .card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-line);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+  }
+
+  .mode-toggle-group {
+    display: flex;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .dark .mode-toggle-group { background-color: rgba(255,255,255,0.05); }
+
+  .mode-btn {
+    flex: 1;
+    padding: 0.625rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.875rem;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .mode-btn.is-active {
+    background: var(--btn-active);
+    color: var(--btn-active-text);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    font-weight: 600;
+  }
+
+  .input-label { display: block; font-size: 0.75rem; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.375rem; }
+  .select-input, .text-input {
+    width: 100%;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    border: 1px solid var(--border-line);
+    border-radius: 0.5rem;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .text-input { font-size: 1.5rem; font-family: 'IBM Plex Mono', monospace; font-weight: 600; padding-left: 2.25rem; }
+  .select-input:focus, .text-input:focus { border-color: var(--accent-gold); }
+
+  .chips-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 1.25rem; }
+  .chip-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border-line);
+    background: transparent;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .chip-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+  .checkbox-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0.875rem;
+    border: 1px solid var(--border-line);
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  .perforated-bottom { position: relative; }
+  .perforated-bottom::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background-image: radial-gradient(circle at 10px 10px, transparent 9px, var(--perf-bg) 9.5px);
+    background-size: 20px 20px;
+    background-repeat: repeat-x;
+  }
+
+  .receipt-box {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-line);
+    border-radius: 0.75rem 0.75rem 0 0;
+    padding: 1.5rem;
+  }
+
+  .ledger-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.625rem 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.875rem;
+    border-bottom: 1px dashed var(--border-line);
+  }
+  .ledger-row.total-row {
+    border-bottom: none;
+    border-top: 2px solid var(--text-main);
+    margin-top: 0.25rem;
+    padding-top: 1rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  .stamp-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.125rem 0.5rem;
+    border: 2px solid var(--stamp-green);
+    color: var(--stamp-green);
+    border-radius: 0.375rem;
+    transform: rotate(-6deg);
+    display: inline-block;
+  }
+
+  .progress-bar-wrap { height: 0.5rem; border-radius: 9999px; background: var(--border-line); overflow: hidden; display: flex; margin-top: 1rem; }
+  .progress-fee { background: var(--stamp-red); height: 100%; transition: width 0.2s; }
+  .progress-net { background: var(--stamp-green); height: 100%; transition: width 0.2s; }
+
+  .btn-primary {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--text-main);
+    color: var(--bg-page);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.875rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    margin-top: 1.25rem;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+
+  .ad-container {
+    width: 100%;
+    min-height: 90px;
+    border: 1px dashed var(--border-line);
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    text-align: center;
+    background-color: rgba(0,0,0,0.02);
+    margin-top: 1rem;
+  }
+  .dark .ad-container { background-color: rgba(255,255,255,0.02); }
+
+  table { width: 100%; border-collapse: collapse; font-family: 'IBM Plex Mono', monospace; font-size: 0.8125rem; text-align: left; }
+  th, td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-line); }
+  th { background-color: rgba(0,0,0,0.03); font-weight: 600; }
+  .dark th { background-color: rgba(255,255,255,0.03); }
+
+  details { border-bottom: 1px solid var(--border-line); padding: 1rem 0; }
+  summary { font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  summary::-webkit-details-marker { display: none; }
+
+  .toast {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-main);
+    color: var(--bg-page);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: 9999px;
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 50;
+  }
+
+  .hidden { display: none !important; }
+  .tabular { font-variant-numeric: tabular-nums; }
+  .text-red { color: var(--stamp-red); }
+  .text-green { color: var(--stamp-green); }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container-nav">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <span style="font-size: 1.25rem;">🧾</span>
+      <span class="font-display" style="font-weight: 700; font-size: 0.9375rem;">Fee Ledger</span>
+    </div>
+    <button id="themeToggle" type="button" aria-label="Toggle theme" style="background: none; border: 1px solid var(--border-line); border-radius: 0.375rem; width: 2.25rem; height: 2.25rem; cursor: pointer; color: var(--text-main);">
+      <span id="themeIcon">🌙</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section style="text-align: center; padding: 2.5rem 1.25rem 1.5rem;">
+    <p class="font-mono" style="font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--stamp-red); margin-bottom: 0.5rem;">Based on Stripe's Published 2026 Rates</p>
+    <h1 class="font-display" style="font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700; max-width: 600px; margin: 0 auto; line-height: 1.2;">
+      Stripe Fee Calculator &amp; Reverse Invoice Tool
+    </h1>
+    <p style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted); max-width: 540px; margin-left: auto; margin-right: auto;">
+      Calculate estimated card processing fees, payout deductions, and international surcharges — or use reverse mode to find what to invoice.
+    </p>
+  </section>
+
+  <section class="container-main" aria-label="Calculator widget">
+    <div class="mode-toggle-group">
+      <button type="button" id="modeForward" class="mode-btn is-active" data-mode="forward">I'm charging $X</button>
+      <button type="button" id="modeReverse" class="mode-btn" data-mode="reverse">I need to receive $Y</button>
+    </div>
+
+    <div class="card">
+      <label for="country" class="input-label">Merchant Region</label>
+      <select id="country" class="select-input" style="margin-bottom: 1rem;">
+        <option value="US">🇺🇸 United States</option>
+        <option value="UK">🇬🇧 United Kingdom</option>
+        <option value="EU">🇪🇺 Europe (EEA / Ireland)</option>
+        <option value="IN">🇮🇳 India</option>
+        <option value="AU">🇦🇺 Australia</option>
+        <option value="CA">🇨🇦 Canada</option>
+        <option value="SG">🇸🇬 Singapore</option>
+      </select>
+
+      <label for="cardType" class="input-label">Card / Transaction Type</label>
+      <select id="cardType" class="select-input" style="margin-bottom: 1rem;">
+        <!-- Populated dynamically via JS -->
+      </select>
+
+      <label id="amountLabel" for="amount" class="input-label">Amount you're charging</label>
+      <div style="position: relative; margin-bottom: 0.75rem;">
+        <span id="currSymbol" class="font-mono" style="position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%); font-size: 1.125rem; color: var(--text-muted);">$</span>
+        <input id="amount" type="number" inputmode="decimal" min="0" step="0.01" value="100" class="text-input" aria-label="Transaction amount">
+      </div>
+
+      <div class="chips-row">
+        <button type="button" class="chip-btn" data-val="50"><span class="chip-curr">$</span>50</button>
+        <button type="button" class="chip-btn" data-val="100"><span class="chip-curr">$</span>100</button>
+        <button type="button" class="chip-btn" data-val="500"><span class="chip-curr">$</span>500</button>
+        <button type="button" class="chip-btn" data-val="1000"><span class="chip-curr">$</span>1,000</button>
+        <button type="button" class="chip-btn" data-val="5000"><span class="chip-curr">$</span>5,000</button>
+      </div>
+
+      <div>
+        <label class="checkbox-card">
+          <span style="font-size: 0.75rem; font-weight: 500;">
+            Currency conversion (FX) required
+            <span id="convLabelPct" class="font-mono" style="display: block; font-size: 0.6875rem; color: var(--text-muted);">+1.0% surcharge</span>
+          </span>
+          <input id="currConv" type="checkbox" style="accent-color: var(--accent-gold); width: 1rem; height: 1rem;">
+        </label>
+      </div>
+    </div>
+
+    <div class="perforated-bottom" id="receiptWrap" style="margin-top: 1.5rem;">
+      <div class="receipt-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <span class="font-mono" style="font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted);">Fee Breakdown</span>
+          <span id="stampBadge" class="stamp-badge">Net Payout</span>
+        </div>
+
+        <div>
+          <div class="ledger-row">
+            <span style="color: var(--text-muted);" id="line1Label">Gross charge</span>
+            <span id="line1Val" class="tabular" style="font-weight: 500;">$100.00</span>
+          </div>
+          <div class="ledger-row">
+            <span style="color: var(--text-muted);" id="line2Label">Card processing fee</span>
+            <span id="line2Val" class="tabular text-red" style="font-weight: 500;">− $3.20</span>
+          </div>
+          <div id="convLine" class="ledger-row hidden">
+            <span style="color: var(--text-muted);">FX conversion surcharge</span>
+            <span id="convVal" class="tabular text-red" style="font-weight: 500;">− $0.00</span>
+          </div>
+          <div class="ledger-row total-row">
+            <span class="font-display" id="line3Label">You receive</span>
+            <span id="line3Val" class="tabular font-display text-green">$96.80</span>
+          </div>
+        </div>
+
+        <div class="progress-bar-wrap">
+          <div id="feeBar" class="progress-fee" style="width: 3.2%;"></div>
+          <div id="netBar" class="progress-net" style="width: 96.8%;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 0.375rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.6875rem; color: var(--text-muted);">
+          <span id="feePct">Fees: 3.2%</span>
+          <span id="netPct">Net: 96.8%</span>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" id="copyBtn" class="btn-primary">
+      <span>📋</span> Copy Breakdown
+    </button>
+
+    <!-- AD CONTAINER #1 (MID-PAGE) -->
+    <div id="ad-slot-1" class="ad-container">
+      <p class="font-mono" style="font-size: 0.75rem; color: var(--text-muted);">Need lower cross-border invoice &amp; FX fees?</p>
+      <a href="https://wise.com" target="_blank" rel="noopener noreferrer" style="font-size: 0.75rem; font-weight: 600; color: var(--accent-gold); text-decoration: none; margin-top: 0.25rem;">Compare multi-currency business accounts &rarr;</a>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast">
+  <span>✓</span> <span>Copied breakdown to clipboard</span>
+</div>
+
+<section class="container-content" style="border-top: 1px solid var(--border-line);">
+  <h2 class="font-display" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Standard vs. International Stripe Pricing (2026)</h2>
+  
+  <div style="overflow-x: auto; border: 1px solid var(--border-line); border-radius: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>Region</th>
+          <th>Base Card Fee</th>
+          <th>International Surcharge</th>
+          <th>FX Surcharge</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>🇺🇸 United States (US)</td><td>2.9% + $0.30</td><td>+ 1.5%</td><td>+ 1.0%</td></tr>
+        <tr><td>🇬🇧 United Kingdom (UK)</td><td>1.5% + £0.20</td><td>+ 1.0% (EEA) / + 1.75% (Other Intl)</td><td>+ 2.0%</td></tr>
+        <tr><td>🇪🇺 Eurozone / Ireland</td><td>1.5% + €0.25</td><td>+ 1.0% (UK) / + 1.65% (Other Intl)</td><td>+ 2.0%</td></tr>
+        <tr><td>🇮🇳 India</td><td>2.0% domestic</td><td>3.0% (Visa/MC) / 3.5% (Amex) / 4.3% (USD)</td><td>+ 2.0% where applicable</td></tr>
+        <tr><td>🇦🇺 Australia</td><td>1.7% + A$0.30</td><td>+ 1.8% (3.5% + A$0.30 total)</td><td>+ 2.0%</td></tr>
+        <tr><td>🇨🇦 Canada</td><td>2.9% + C$0.30</td><td>+ 0.8% (3.7% + C$0.30 total)</td><td>+ 2.0%</td></tr>
+        <tr><td>🇸🇬 Singapore</td><td>3.4% + S$0.50</td><td>+ 0.5% (3.9% + S$0.50 total)</td><td>+ 2.0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="font-mono" style="font-size: 0.6875rem; color: var(--text-muted); margin-top: 0.5rem;">Rates reflect official published pricing for standard credit and debit transactions.</p>
+
+  <h2 class="font-display" style="font-size: 1.25rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem;">Stripe Fee Formula &amp; Invoicing Math</h2>
+  <div style="font-size: 0.875rem; color: var(--text-main); display: flex; flex-direction: column; gap: 0.75rem;">
+    <p><strong>Forward Calculation</strong> (what you receive after Stripe takes its processing deduction):</p>
+    <div class="card font-mono" style="padding: 0.75rem 1rem; font-size: 0.8125rem;">
+      Net Payout = Gross Charge − (Gross Charge × Rate) − Fixed Fee
+    </div>
+    <p><strong>Reverse Calculation</strong> (how much to bill so you net an exact dollar figure):</p>
+    <div class="card font-mono" style="padding: 0.75rem 1rem; font-size: 0.8125rem;">
+      Gross Invoice = (Target Net + Fixed Fee) ÷ (1 − Applicable Combined Rate)
+    </div>
+  </div>
+
+  <h2 class="font-display" style="font-size: 1.25rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem;">Frequently Asked Questions</h2>
+  <div style="border-top: 1px solid var(--border-line);">
+    <details>
+      <summary><span>How much does Stripe charge per $100?</span> <span>↓</span></summary>
+      <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;">On a standard US domestic transaction of $100, Stripe charges 2.9% ($2.90) + $0.30 = $3.20 in fees, leaving you with a net payout of $96.80.</p>
+    </details>
+    <details>
+      <summary><span>Does Stripe charge for standard bank payouts?</span> <span>↓</span></summary>
+      <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;">No. Standard automatic payouts to your connected local bank account are completely free. If you request an Instant Payout to a debit card, Stripe charges a 1.5% fee in the US and Australia, or 1% in most other supported regions.</p>
+    </details>
+    <details>
+      <summary><span>How do I get the client to cover the Stripe processing fee?</span> <span>↓</span></summary>
+      <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;">Switch to "I need to receive $Y" mode above. The tool applies the gross-up formula to calculate the exact invoice amount needed so Stripe's cut does not reduce your net earnings.</p>
+    </details>
+    <details>
+      <summary><span>What are Stripe's secondary or dispute fees?</span> <span>↓</span></summary>
+      <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;">Dispute fees vary by currency (typically $15 in the US/CA, £15 in the UK, and €20 in Ireland/Europe per dispute). Additional optional tools like Stripe Billing or advanced Invoicing carry separate usage-based pricing.</p>
+    </details>
+  </div>
+
+  <!-- AD CONTAINER #2 (BOTTOM) -->
+  <div id="ad-slot-2" class="ad-container" style="margin-top: 2rem;">
+    <span class="font-mono" style="font-size: 0.75rem; color: var(--text-muted);">Partner Advertisement Space</span>
+  </div>
+
+  <p class="font-mono" style="font-size: 0.6875rem; color: var(--text-muted); margin-top: 2rem; line-height: 1.4;">
+    Pricing disclaimer: This calculator is an independent reference utility and is not affiliated with, endorsed by, or sponsored by Stripe, Inc. Rates are based on Stripe's publicly available pricing information and were last reviewed in August 2026. Pricing can vary by country, card type, payment method, currency, account configuration and other factors. Always verify the applicable rate in your Stripe Dashboard or on Stripe's official pricing pages.
+  </p>
+</section>
+
+<footer>
+  <p class="font-mono" style="font-size: 0.75rem; color: var(--text-muted);">Fee Ledger — Free Stripe Fee Calculator &amp; Reverse Invoicing Tool.</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var PRICING_DATA = {
+    US: {
+      symbol: '$',
+      conv: 0.01,
+      options: [
+        { label: 'Domestic Card (2.9% + $0.30)', pct: 0.029, fixed: 0.30 },
+        { label: 'International Card (4.4% + $0.30)', pct: 0.044, fixed: 0.30 }
+      ]
+    },
+    UK: {
+      symbol: '£',
+      conv: 0.02,
+      options: [
+        { label: 'Domestic UK Card (1.5% + £0.20)', pct: 0.015, fixed: 0.20 },
+        { label: 'EEA Card (2.5% + £0.20)', pct: 0.025, fixed: 0.20 },
+        { label: 'Other International Card (3.25% + £0.20)', pct: 0.0325, fixed: 0.20 }
+      ]
+    },
+    EU: {
+      symbol: '€',
+      conv: 0.02,
+      options: [
+        { label: 'Standard EEA Card (1.5% + €0.25)', pct: 0.015, fixed: 0.25 },
+        { label: 'UK Card (2.5% + €0.25)', pct: 0.025, fixed: 0.25 },
+        { label: 'Other International Card (3.15% + €0.25)', pct: 0.0315, fixed: 0.25 }
+      ]
+    },
+    IN: {
+      symbol: '₹',
+      conv: 0.02,
+      options: [
+        { label: 'Domestic Visa / Mastercard (2.0%)', pct: 0.020, fixed: 0.00 },
+        { label: 'International Visa / Mastercard (3.0%)', pct: 0.030, fixed: 0.00 },
+        { label: 'International Amex (3.5%)', pct: 0.035, fixed: 0.00 },
+        { label: 'International Multi-Currency / USD (4.3%)', pct: 0.043, fixed: 0.00 }
+      ]
+    },
+    AU: {
+      symbol: 'A$',
+      conv: 0.02,
+      options: [
+        { label: 'Domestic Card (1.7% + A$0.30)', pct: 0.017, fixed: 0.30 },
+        { label: 'International Card (3.5% + A$0.30)', pct: 0.035, fixed: 0.30 }
+      ]
+    },
+    CA: {
+      symbol: 'C$',
+      conv: 0.02,
+      options: [
+        { label: 'Domestic Card (2.9% + C$0.30)', pct: 0.029, fixed: 0.30 },
+        { label: 'International Card (3.7% + C$0.30)', pct: 0.037, fixed: 0.30 }
+      ]
+    },
+    SG: {
+      symbol: 'S$',
+      conv: 0.02,
+      options: [
+        { label: 'Domestic Card (3.4% + S$0.50)', pct: 0.034, fixed: 0.50 },
+        { label: 'International Card (3.9% + S$0.50)', pct: 0.039, fixed: 0.50 }
+      ]
+    }
+  };
+
+  var mode = 'forward';
+  function el(id) { return document.getElementById(id); }
+  var amountInput = el('amount');
+  var countrySelect = el('country');
+  var cardTypeSelect = el('cardType');
+  var convCheck = el('currConv');
+  var currSymbolEl = el('currSymbol');
+
+  function fmt(n) {
+    if (isNaN(n) || !isFinite(n)) return '0.00';
+    return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function populateCardTypes() {
+    var country = PRICING_DATA[countrySelect.value] || PRICING_DATA.US;
+    cardTypeSelect.innerHTML = '';
+    country.options.forEach(function(opt, index) {
+      var optionElem = document.createElement('option');
+      optionElem.value = index;
+      optionElem.textContent = opt.label;
+      cardTypeSelect.appendChild(optionElem);
+    });
+  }
+
+  function calculate() {
+    var country = PRICING_DATA[countrySelect.value] || PRICING_DATA.US;
+    var selectedOption = country.options[cardTypeSelect.value] || country.options[0];
+    
+    var basePct = selectedOption.pct;
+    var fixedFee = selectedOption.fixed;
+    var convPct = convCheck.checked ? country.conv : 0;
+    var totalPct = basePct + convPct;
+
+    var raw = parseFloat(amountInput.value);
+    var input = isNaN(raw) || raw < 0 ? 0 : raw;
+    currSymbolEl.textContent = country.symbol;
+
+    document.querySelectorAll('.chip-curr').forEach(function(elem) {
+      elem.textContent = country.symbol;
+    });
+
+    el('convLabelPct').textContent = '+' + (country.conv * 100).toFixed(1).replace(/\.0$/, '') + '% surcharge';
+
+    var gross, net, baseFee, convFee, totalFee;
+
+    if (mode === 'forward') {
+      gross = input;
+      baseFee = gross * basePct + fixedFee;
+      convFee = gross * convPct;
+      totalFee = baseFee + convFee;
+      net = Math.max(0, gross - totalFee);
+
+      el('amountLabel').textContent = "Amount you're charging";
+      el('line1Label').textContent = 'Gross charge';
+      el('line1Val').textContent = country.symbol + fmt(gross);
+      el('line3Label').textContent = 'You receive';
+      el('line3Val').textContent = country.symbol + fmt(net);
+      el('stampBadge').textContent = 'Net Payout';
+    } else {
+      net = input;
+      gross = (net + fixedFee) / (1 - totalPct);
+      baseFee = gross * basePct + fixedFee;
+      convFee = gross * convPct;
+      totalFee = gross - net;
+
+      el('amountLabel').textContent = "Amount you need to receive";
+      el('line1Label').textContent = 'Invoice amount to client';
+      el('line1Val').textContent = country.symbol + fmt(gross);
+      el('line3Label').textContent = 'Your net take-home';
+      el('line3Val').textContent = country.symbol + fmt(net);
+      el('stampBadge').textContent = 'Invoice For';
+    }
+
+    el('line2Label').textContent = selectedOption.label.split('(')[0].trim() + ' fee';
+    el('line2Val').textContent = '− ' + country.symbol + fmt(baseFee);
+
+    el('convLine').classList.toggle('hidden', !convCheck.checked);
+    if (convCheck.checked) el('convVal').textContent = '− ' + country.symbol + fmt(convFee);
+
+    var feePctVal = gross > 0 ? (totalFee / gross) * 100 : 0;
+    var netPctVal = 100 - feePctVal;
+    el('feeBar').style.width = Math.min(Math.max(feePctVal, 0), 100) + '%';
+    el('netBar').style.width = Math.min(Math.max(netPctVal, 0), 100) + '%';
+    el('feePct').textContent = 'Fees: ' + feePctVal.toFixed(1) + '%';
+    el('netPct').textContent = 'Net: ' + netPctVal.toFixed(1) + '%';
+
+    return {
+      country: country,
+      selectedOption: selectedOption,
+      gross: gross,
+      net: net,
+      baseFee: baseFee,
+      convFee: convFee,
+      totalFee: totalFee
+    };
+  }
+
+  function setMode(newMode) {
+    mode = newMode;
+    document.querySelectorAll('.mode-btn').forEach(function (btn) {
+      btn.classList.toggle('is-active', btn.dataset.mode === mode);
+    });
+    calculate();
+  }
+
+  document.querySelectorAll('.mode-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () { setMode(btn.dataset.mode); });
+  });
+
+  document.querySelectorAll('.chip-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      amountInput.value = btn.dataset.val;
+      calculate();
+      amountInput.focus();
+    });
+  });
+
+  countrySelect.addEventListener('change', function() {
+    populateCardTypes();
+    calculate();
+  });
+
+  [amountInput, cardTypeSelect, convCheck].forEach(function (node) {
+    node.addEventListener('input', calculate);
+    node.addEventListener('change', calculate);
+  });
+
+  el('copyBtn').addEventListener('click', function () {
+    var r = calculate();
+    var lines = [
+      'Stripe Fee Breakdown (' + countrySelect.options[countrySelect.selectedIndex].text.trim() + ')',
+      'Card Plan: ' + r.selectedOption.label,
+      '--------------------------------------',
+      (mode === 'forward' ? 'Gross charge' : 'Invoice amount') + ': ' + r.country.symbol + fmt(r.gross),
+      'Card fee: -' + r.country.symbol + fmt(r.baseFee)
+    ];
+    if (convCheck.checked) lines.push('FX conversion: -' + r.country.symbol + fmt(r.convFee));
+    lines.push('--------------------------------------');
+    lines.push((mode === 'forward' ? 'Net payout' : 'Your net payout') + ': ' + r.country.symbol + fmt(r.net));
+
+    var text = lines.join('\n');
+    function showToast() {
+      var toast = el('toast');
+      toast.style.display = 'flex';
+      setTimeout(function () { toast.style.display = 'none'; }, 1800);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(showToast).catch(function () { fallbackCopy(text, showToast); });
+    } else {
+      fallbackCopy(text, showToast);
+    }
+  });
+
+  function fallbackCopy(text, cb) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    if (cb) cb();
+  }
+
+  var themeToggle = el('themeToggle');
+  var themeIcon = el('themeIcon');
+  function applyTheme(dark) {
+    document.documentElement.classList.toggle('dark', dark);
+    themeIcon.textContent = dark ? '☀️' : '🌙';
+    try { localStorage.setItem('feeLedgerTheme', dark ? 'dark' : 'light'); } catch (e) {}
+  }
+  themeToggle.addEventListener('click', function () {
+    applyTheme(!document.documentElement.classList.contains('dark'));
+  });
+  (function initTheme() {
+    var saved = null;
+    try { saved = localStorage.getItem('feeLedgerTheme'); } catch (e) {}
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(saved ? saved === 'dark' : !!prefersDark);
+  })();
+
+  populateCardTypes();
+  setMode('forward');
+  amountInput.focus();
+})();
+</script>
+
+</body>
+</html>
