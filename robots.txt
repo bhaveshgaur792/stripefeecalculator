@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stripefeecalculator.vercel.app/sitemap.xml
